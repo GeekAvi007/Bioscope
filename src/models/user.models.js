@@ -83,7 +83,23 @@ userSChema.methods.isPasswordCorrect = async function(password){
 
 userSChema.methods.generateAccessToken = function(){
     // short lived access JWT Token 
-    
+    return jwt.sign({
+        _id: this.id,
+        email: this.email,
+        username: this.username,
+        fullname: this.fullname
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    {expiresIn: ACCESS_TOKEN_EXPIRY});
+}
+
+userSChema.methods.generateRefreshToken = function(){
+    // short lived access JWT Token 
+    return jwt.sign({
+        _id: this.id,
+    },
+    process.env.REFRESH_TOKEN_SECRET,
+    {expiresIn: REFRESH_TOKEN_EXPIRY});
 }
 
 export const User = mongoose.model("User", userSChema)
