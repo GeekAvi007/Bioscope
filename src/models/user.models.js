@@ -29,7 +29,7 @@ const userSChema = new Schema(
             type: String,
             required: true,
             trim: true,
-            index
+            index: true
         },
 
         avatar:
@@ -69,7 +69,7 @@ const userSChema = new Schema(
 // encryption
 userSChema.pre("save", async function (next){
     
-    if(!this.modified("password")) return next()
+    if(!this.isModified("password")) return next()
 
     this.password = bcrypt.hash(this.password, 10)
 
